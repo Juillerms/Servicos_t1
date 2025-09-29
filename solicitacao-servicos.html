@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitar Serviços - Nexus TI</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Folhas de Estilo -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/solicitacao-servicos.css">
+</head>
+<body>
+    <!-- CABEÇALHO -->
+    <header class="main-header">
+        <div class="container">
+            <a href="index.html" class="logo-container">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z" />
+                </svg>
+                <h1>Nexus TI</h1>
+            </a>
+            <nav class="main-nav">
+                <a href="index.html">Início</a>
+                <a href="#" id="logoutButton">Sair</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="container">
+        <!-- Seção 1: Identificação do Usuário -->
+        <section class="section user-info">
+            <h2 class="section-title">Bem-vindo(a) de volta!</h2>
+            <p><strong>Nome:</strong> <span id="userName"></span></p>
+            <p><strong>Login:</strong> <span id="userEmail"></span></p>
+        </section>
+
+        <div class="dashboard-layout">
+            <!-- Seção 3: Nova Solicitação -->
+            <section class="section new-request-section">
+                <h2 class="section-title">Nova Solicitação de Serviço</h2>
+                <form id="newRequestForm">
+                    <div class="form-group">
+                        <label for="serviceType" class="form-label">Selecione o Serviço de TI:</label>
+                        <select id="serviceType" class="form-input">
+                            <!-- Opções preenchidas via JS -->
+                        </select>
+                    </div>
+
+                    <div class="service-details">
+                        <p><strong>Preço:</strong> R$ <span id="servicePrice">0,00</span></p>
+                        <p><strong>Prazo:</strong> <span id="serviceTerm">N/A</span> dias</p>
+                        <p><strong>Data Prevista:</strong> <span id="serviceDate">--/--/----</span></p>
+                        <p><strong>Status:</strong> <span id="serviceStatus">EM ELABORAÇÃO</span></p>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Incluir Solicitação</button>
+                </form>
+            </section>
+
+            <!-- Seção 2: Histórico de Solicitações -->
+            <section class="section history-section">
+                <h2 class="section-title">Histórico de Solicitações</h2>
+                <div class="table-wrapper">
+                    <table class="requests-table">
+                        <thead>
+                            <tr>
+                                <th>Data Pedido</th>
+                                <th>Nº</th>
+                                <th>Serviço</th>
+                                <th>Status</th>
+                                <th>Preço</th>
+                                <th>Data Prevista</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="requestsTableBody">
+                            <!-- Linhas preenchidas com dados fictícios via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- RODAPÉ -->
+    <footer class="main-footer">
+        <div class="container footer-bottom">
+            <p>&copy; 2024 Nexus TI. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Script da Página -->
+    <script src="js/solicitacao-servicos.js"></script>
+</body>
+</html>
