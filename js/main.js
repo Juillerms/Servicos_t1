@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Usuário não está logado: mostra links de login e cadastro
         mainNav.innerHTML = `
             <a href="login.html">Login</a>
-            <a href="cadastro-cliente.html">Cadastrar Cliente</a>
+            <a href="cadastro-cliente.html">Cadastrar cliente</a>
         `;
     }
 });

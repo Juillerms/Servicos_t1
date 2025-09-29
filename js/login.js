@@ -65,6 +65,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // --- SUCESSO ---
         showMessage('Validação realizada com sucesso!', 'success');
+
+        sessionStorage.setItem('isLoggedIn', 'true');
+        sessionStorage.setItem('userEmail', email); // Guarda o email para usar depois
+        sessionStorage.setItem('userName', 'Cliente Exemplo'); // Nome fixo, como pedido
         
         // Simula o login e redireciona para a página principal após 1.5 segundos
         setTimeout(() => {
