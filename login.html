@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Nexus TI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/login.css" />
+  </head>
+  <body>
+    <div class="login-container">
+      <a href="index.html" class="logo-container">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z"
+          />
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z"
+          />
+        </svg>
+        <h1>Nexus TI</h1>
+      </a>
+
+      <h2 class="login-title">Login de Clientes</h2>
+
+      <div id="message" class="message"></div>
+
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label for="email" class="form-label">Login (e-mail)</label>
+          <input type="email" id="email" class="form-input" required />
+        </div>
+        <div class="form-group">
+          <label for="password" class="form-label">Senha</label>
+          <input type="password" id="password" class="form-input" required />
+        </div>
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary">Realizar Login</button>
+          <button type="button" id="clearButton" class="btn btn-secondary">
+            Limpar
+          </button>
+        </div>
+      </form>
+
+      <div class="extra-links">
+        <a href="troca-senha.html">Trocar senha</a>
+        <a href="cadastro-cliente.html">Cadastrar cliente</a>
+      </div>
+    </div>
+
+    <script src="js/login.js" defer></script>
+  </body>
+</html>
