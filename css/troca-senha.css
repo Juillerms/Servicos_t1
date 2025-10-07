@@ -1,0 +1,21 @@
+.password-rules {
+    background-color: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    text-align: left;
+    font-size: 0.875rem;
+    color: #4b5563;
+}
+
+.password-rules h4 {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.password-rules ul {
+    list-style-position: inside;
+    padding-left: 0.5rem;
+}
