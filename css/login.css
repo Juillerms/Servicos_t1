@@ -18,15 +18,15 @@ body {
 }
 
 .logo-container {
-  display: block; 
-  margin: 0 auto 1rem; 
+  display: block;
+  margin: 0 auto 1rem;
   text-align: center;
 }
 
 .logo-container img {
   width: 6rem;
   height: 6rem;
-  display: block;       
+  display: block;
   margin: 0 auto;
 }
 

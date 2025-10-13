@@ -1,75 +1,74 @@
 // Adiciona um listener que espera o DOM estar completamente carregado
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
+  const loginForm = document.getElementById("loginForm");
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+  const clearButton = document.getElementById("clearButton");
+  const messageDiv = document.getElementById("message");
 
-    const loginForm = document.getElementById('loginForm');
-    const emailInput = document.getElementById('email');
-    const passwordInput = document.getElementById('password');
-    const clearButton = document.getElementById('clearButton');
-    const messageDiv = document.getElementById('message');
+  const showMessage = (message, type) => {
+    messageDiv.textContent = message;
+    messageDiv.className = `message ${type}`;
+  };
 
-    const showMessage = (message, type) => {
-        messageDiv.textContent = message;
-        messageDiv.className = `message ${type}`; 
-    };
+  const clearMessage = () => {
+    messageDiv.textContent = "";
+    messageDiv.className = "message";
+  };
 
-    const clearMessage = () => {
-        messageDiv.textContent = '';
-        messageDiv.className = 'message';
-    };
-    
-    const isValidEmail = (email) => {
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return regex.test(email);
-    };
+  const isValidEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
 
-    loginForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-        clearMessage();
-        
-        emailInput.classList.remove('invalid');
-        passwordInput.classList.remove('invalid');
+  loginForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    clearMessage();
 
-        const email = emailInput.value.trim();
-        const password = passwordInput.value.trim();
+    emailInput.classList.remove("invalid");
+    passwordInput.classList.remove("invalid");
 
-        if (email === '') {
-            showMessage('O campo de e-mail é obrigatório.', 'error');
-            emailInput.classList.add('invalid');
-            emailInput.focus();
-            return;
-        }
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
 
-        if (!isValidEmail(email)) {
-            showMessage('Por favor, insira um formato de e-mail válido.', 'error');
-            emailInput.classList.add('invalid');
-            emailInput.focus();
-            return;
-        }
+    if (email === "") {
+      showMessage("O campo de e-mail é obrigatório.", "error");
+      emailInput.classList.add("invalid");
+      emailInput.focus();
+      return;
+    }
 
-        if (password === '') {
-            showMessage('O campo de senha é obrigatório.', 'error');
-            passwordInput.classList.add('invalid');
-            passwordInput.focus();
-            return;
-        }
+    if (!isValidEmail(email)) {
+      showMessage("Por favor, insira um formato de e-mail válido.", "error");
+      emailInput.classList.add("invalid");
+      emailInput.focus();
+      return;
+    }
 
-        showMessage('Validação realizada com sucesso!', 'success');
+    if (password === "") {
+      showMessage("O campo de senha é obrigatório.", "error");
+      passwordInput.classList.add("invalid");
+      passwordInput.focus();
+      return;
+    }
 
-        sessionStorage.setItem('isLoggedIn', 'true');
-        sessionStorage.setItem('userEmail', email); 
-        sessionStorage.setItem('userName', 'Cliente Exemplo'); 
-        
-        setTimeout(() => {
-            window.location.href = 'index.html';
-        }, 1500);
-    });
+    showMessage("Validação realizada com sucesso!", "success");
 
-    clearButton.addEventListener('click', () => {
-        emailInput.value = '';
-        passwordInput.value = '';
-        clearMessage();
-        emailInput.classList.remove('invalid');
-        passwordInput.classList.remove('invalid');
-        emailInput.focus(); 
-    });
+    sessionStorage.setItem("isLoggedIn", "true");
+    sessionStorage.setItem("userEmail", email);
+    sessionStorage.setItem("userName", "Cliente Exemplo");
+
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 1500);
+  });
+
+  clearButton.addEventListener("click", () => {
+    emailInput.value = "";
+    passwordInput.value = "";
+    clearMessage();
+    emailInput.classList.remove("invalid");
+    passwordInput.classList.remove("invalid");
+    emailInput.focus();
+  });
 });
