@@ -189,14 +189,6 @@ main {
   color: #4b5563;
 }
 
-.founders-table tbody tr:not(:last-child) {
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.founders-table td:first-child {
-  font-weight: 500;
-}
-
 .founders-table td {
   color: #374151;
 }
