@@ -1,4 +1,3 @@
-// frontend/src/pages/SolicitacaoServicos.jsx
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
@@ -7,16 +6,14 @@ import '../css/solicitacao-servicos.css';
 const SolicitacaoServicos = () => {
     const navigate = useNavigate();
     
-    // Estados para dados do utilizador e serviços
     const [usuario, setUsuario] = useState({ nome: '', email: '' });
     const [servicosDisponiveis, setServicosDisponiveis] = useState([]);
     const [meusPedidos, setMeusPedidos] = useState([]);
     
-    // Estado para o formulário de novo pedido
     const [servicoSelecionadoId, setServicoSelecionadoId] = useState('');
     const [detalhesServico, setDetalhesServico] = useState(null);
 
-    // Carregar dados ao iniciar a página
+    // Carrega dados iniciais
     useEffect(() => {
         const isLoggedIn = sessionStorage.getItem('isLoggedIn');
         const email = sessionStorage.getItem('userEmail');
@@ -32,13 +29,12 @@ const SolicitacaoServicos = () => {
         carregarPedidosUsuario(email);
     }, [navigate]);
 
-    // Função para buscar serviços no backend
     const carregarServicos = async () => {
         try {
             const response = await axios.get('http://localhost:3001/api/servicos');
             if (response.data.status === 'sucesso') {
                 setServicosDisponiveis(response.data.dados);
-                // Seleciona o primeiro serviço por padrão se houver
+                // Seleciona o primeiro item automaticamente se houver
                 if (response.data.dados.length > 0) {
                     setServicoSelecionadoId(response.data.dados[0].id);
                 }
@@ -48,20 +44,18 @@ const SolicitacaoServicos = () => {
         }
     };
 
-    // Função para buscar pedidos do utilizador no backend
     const carregarPedidosUsuario = async (email) => {
         try {
             const response = await axios.get(`http://localhost:3001/api/solicitacoes/${email}`);
             if (response.data.status === 'sucesso') {
-                // Formata os dados vindos do banco para o formato da tabela
+                // Formata os dados vindos do banco (que estão em português) para o state local
                 const pedidosFormatados = response.data.dados.map(p => ({
                     ...p,
-                    service: p.nome_servico, // Ajuste para bater com a exibição
-                    price: p.preco_momento,
+                    service: p.nome_servico,
+                    price: p.preco_momento, 
                     date: p.data_pedido,
                     expectedDate: p.data_prevista,
-                    // Garante que servico_id existe para reenvio
-                    servico_id: p.servico_id || 0 
+                    servico_id: p.servico_id // Garante que o ID venha do banco
                 }));
                 setMeusPedidos(pedidosFormatados);
             }
@@ -70,7 +64,7 @@ const SolicitacaoServicos = () => {
         }
     };
 
-    // Atualiza detalhes quando o utilizador muda o select
+    // Atualiza o objeto 'detalhesServico' sempre que o ID selecionado muda
     useEffect(() => {
         if (servicoSelecionadoId && servicosDisponiveis.length > 0) {
             const servico = servicosDisponiveis.find(s => s.id === parseInt(servicoSelecionadoId));
@@ -78,18 +72,22 @@ const SolicitacaoServicos = () => {
         }
     }, [servicoSelecionadoId, servicosDisponiveis]);
 
-    // Lógica para Adicionar Pedido (apenas no estado local React)
+    // --- AÇÃO: Botão INCLUIR ---
     const handleAdicionarPedido = (e) => {
         e.preventDefault();
-        if (!detalhesServico) return;
+        
+        if (!detalhesServico) {
+            alert("Aguarde o carregamento dos serviços ou selecione um válido.");
+            return;
+        }
 
         const dataHoje = new Date();
         const dataPrevista = new Date();
-        dataPrevista.setDate(dataHoje.getDate() + detailsServico.prazo);
+        dataPrevista.setDate(dataHoje.getDate() + detalhesServico.prazo);
 
         const novoPedido = {
-            id: `TEMP-${Date.now()}`, // ID temporário
-            servico_id: detalhesServico.id,
+            id: `TEMP-${Date.now()}`, // ID provisório para o React
+            servico_id: detalhesServico.id, // ID real do serviço para o Banco
             service: detalhesServico.nome,
             price: detalhesServico.preco,
             date: dataHoje.toISOString().split('T')[0],
@@ -100,23 +98,32 @@ const SolicitacaoServicos = () => {
         setMeusPedidos([...meusPedidos, novoPedido]);
     };
 
-    // Lógica para Remover Pedido (apenas no estado local React)
     const handleRemoverPedido = (indexToRemove) => {
         const novosPedidos = meusPedidos.filter((_, index) => index !== indexToRemove);
         setMeusPedidos(novosPedidos);
     };
 
-    // Lógica do botão "Atualizar Solicitações" (Envia TUDO para o backend)
+    // --- AÇÃO: Botão SALVAR ---
     const handleSalvarTudo = async () => {
+        // Prepara o payload no formato que o backend espera (nomes em português)
+        const payloadSolicitacoes = meusPedidos.map(item => ({
+            servico_id: item.servico_id,
+            data_pedido: item.date,
+            data_prevista: item.expectedDate,
+            status: item.status,
+            preco: item.price
+        }));
+
         try {
             await axios.post('http://localhost:3001/api/solicitacoes/atualizar', {
                 email: usuario.email,
-                solicitacoes: meusPedidos
+                solicitacoes: payloadSolicitacoes
             });
             alert('Solicitações atualizadas com sucesso!');
-            // Recarrega do banco para garantir que temos os IDs reais
+            // Recarrega do banco para confirmar que gravou
             carregarPedidosUsuario(usuario.email);
         } catch (error) {
+            console.error(error);
             alert('Erro ao atualizar solicitações.');
         }
     };
@@ -127,7 +134,6 @@ const SolicitacaoServicos = () => {
         navigate('/');
     };
 
-    // Formatador de Moeda
     const formatMoney = (val) => val ? val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : 'R$ 0,00';
 
     return (
@@ -152,7 +158,6 @@ const SolicitacaoServicos = () => {
                 </section>
 
                 <div className="dashboard-layout">
-                    {/* Formulário de Adicionar */}
                     <section className="section new-request-section">
                         <h2 className="section-title">Nova Solicitação de Serviço</h2>
                         <form onSubmit={handleAdicionarPedido}>
@@ -180,7 +185,6 @@ const SolicitacaoServicos = () => {
                         </form>
                     </section>
 
-                    {/* Tabela de Pedidos */}
                     <section className="section history-section">
                         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem'}}>
                             <h2 className="section-title" style={{marginBottom: 0}}>Minhas Solicitações</h2>

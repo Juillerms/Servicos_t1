@@ -90,12 +90,17 @@ app.get('/api/solicitacoes/:email', (req, res) => {
     db.get("SELECT id FROM clientes WHERE email = ?", [email], (err, cliente) => {
         if (err || !cliente) return res.status(400).json({ status: 'erro', mensagem: 'Cliente não encontrado' });
 
+        // --- CORREÇÃO IMPORTANTE AQUI ---
+        // Adicionado 's.servico_id' na seleção para garantir que o frontend receba o ID
+        // para usar em atualizações futuras.
         const sql = `
-            SELECT s.id, s.data_pedido, s.data_prevista, s.status, s.preco_momento, svc.nome as nome_servico 
+            SELECT s.id, s.servico_id, s.data_pedido, s.data_prevista, s.status, s.preco_momento, svc.nome as nome_servico 
             FROM solicitacoes s
             JOIN servicos svc ON s.servico_id = svc.id
             WHERE s.cliente_id = ?
         `;
+        // -------------------------------
+
         db.all(sql, [cliente.id], (err, rows) => {
             if (err) return res.status(500).json({ status: 'erro', mensagem: err.message });
             res.json({ status: 'sucesso', dados: rows });

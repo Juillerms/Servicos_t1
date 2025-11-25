@@ -5,7 +5,7 @@ import Login from './pages/Login';
 import CadastroCliente from './pages/CadastroCliente';
 import TrocaSenha from './pages/TrocaSenha';
 import SolicitacaoServicos from './pages/SolicitacaoServicos';
-import CadastroServico from './pages/CadastroServico'; // Nova página exigida
+import CadastroServico from './pages/CadastroServico'; // <--- IMPORTANTE
 
 function App() {
   return (
@@ -17,7 +17,8 @@ function App() {
         <Route path="/cadastro-cliente" element={<CadastroCliente />} />
         <Route path="/troca-senha" element={<TrocaSenha />} />
         <Route path="/solicitacao-servicos" element={<SolicitacaoServicos />} />
-        <Route path="/novo-servico" element={<CadastroServico />} />
+        {/* A rota abaixo é a que permite acessar a nova página */}
+        <Route path="/novo-servico" element={<CadastroServico />} /> 
       </Routes>
     </BrowserRouter>
   );
